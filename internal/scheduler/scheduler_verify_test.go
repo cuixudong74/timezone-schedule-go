@@ -177,3 +177,36 @@ func TestInvalidTimezone(t *testing.T) {
 		t.Fatal("expected invalid timezone error")
 	}
 }
+
+func TestInvalidTimeInput(t *testing.T) {
+	now := time.Date(2024, 6, 1, 0, 0, 0, 0, time.UTC)
+	s := newTestScheduler(t, now)
+	// Hour out of range.
+	_, _, err := s.Create(context.Background(), CreateInput{
+		ActorID: "alice", Timezone: "America/New_York",
+		Rule: schedule.RuleEnvelope{Kind: schedule.KindWeekly, Weekly: &schedule.WeeklyRule{
+			Weekdays: []time.Weekday{time.Tuesday}, Hour: 25,
+		}},
+	})
+	if err == nil {
+		t.Fatal("expected error for hour 25")
+	}
+	// No weekdays.
+	_, _, err = s.Create(context.Background(), CreateInput{
+		ActorID: "alice", Timezone: "America/New_York",
+		Rule: schedule.RuleEnvelope{Kind: schedule.KindWeekly, Weekly: &schedule.WeeklyRule{
+			Weekdays: []time.Weekday{}, Hour: 10,
+		}},
+	})
+	if err == nil {
+		t.Fatal("expected error for no weekdays")
+	}
+	// Unknown rule kind.
+	_, _, err = s.Create(context.Background(), CreateInput{
+		ActorID: "alice", Timezone: "America/New_York",
+		Rule:    schedule.RuleEnvelope{Kind: "daily"},
+	})
+	if err == nil {
+		t.Fatal("expected error for unknown kind")
+	}
+}
