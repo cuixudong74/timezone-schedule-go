@@ -10,16 +10,16 @@ import (
 // Positive days count from the start of the month (1 = first); negative days
 // count from the end (-1 = last day).
 type MonthlyRule struct {
-	MonthDays      []int
-	Hour           int
-	Minute         int
-	Second         int
-	IntervalMonths int // 0 or 1 means every month
-	Anchor         YearMonth
-	Until          *YearMonth
+	MonthDays      []int          `json:"month_days"`
+	Hour           int            `json:"hour"`
+	Minute         int            `json:"minute"`
+	Second         int            `json:"second"`
+	IntervalMonths int            `json:"interval_months"`
+	Anchor         YearMonth      `json:"anchor,omitempty"`
+	Until          *YearMonth     `json:"until,omitempty"`
 	// OutOfRange controls what happens to days > month length.
 	// The engine sets this from its configured policy.
-	OutOfRange MonthDayPolicy
+	OutOfRange     MonthDayPolicy `json:"out_of_range,omitempty"`
 }
 
 // Kind returns KindMonthly.

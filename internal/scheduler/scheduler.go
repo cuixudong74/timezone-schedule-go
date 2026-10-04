@@ -364,13 +364,13 @@ func (s *Scheduler) Triggers(ctx context.Context, actorID, scheduleID string) ([
 
 // UpdateReport describes the effect of a modification.
 type UpdateReport struct {
-	ScheduleID   string
-	Revision     int64
-	EffectiveAt  time.Time
-	KeptSeqs     []int64
-	RemovedSeqs  []int64
-	Added        []schedule.Occurrence
-	Warnings     []string
+	ScheduleID  string                `json:"schedule_id"`
+	Revision    int64                 `json:"revision"`
+	EffectiveAt time.Time             `json:"effective_at"`
+	KeptSeqs    []int64               `json:"kept_seqs"`
+	RemovedSeqs []int64               `json:"removed_seqs"`
+	Added       []schedule.Occurrence `json:"added"`
+	Warnings    []string              `json:"warnings"`
 }
 
 func (s *Scheduler) now(override *time.Time) time.Time {

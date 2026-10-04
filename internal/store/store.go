@@ -17,14 +17,14 @@ var (
 
 // AuditRecord is an append-only trace of a security-relevant operation.
 type AuditRecord struct {
-	ID        int64
-	Timestamp time.Time
-	ActorID   string
-	Action    string
-	TargetID  string
-	Result    string // "ok" or "denied"
-	Reason    string
-	Detail    string
+	ID        int64     `json:"id"`
+	Timestamp time.Time `json:"timestamp"`
+	ActorID   string    `json:"actor_id"`
+	Action    string    `json:"action"`
+	TargetID  string    `json:"target_id"`
+	Result    string    `json:"result"`
+	Reason    string    `json:"reason"`
+	Detail    string    `json:"detail"`
 }
 
 // Store is the persistence boundary.

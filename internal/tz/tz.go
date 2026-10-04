@@ -128,11 +128,16 @@ func Resolve(wall WallTime, loc *time.Location, pol DSTPolicy) Resolution {
 	}
 
 	// The wall time exists. Detect ambiguity: collect candidate offsets
-	// observed in the next 72 hours and validate each by round-trip.
+	// observed in a 144-hour window centred on the resolved instant and
+	// validate each by round-trip. Scanning both directions is necessary
+	// because Go's resolution may land on either side of a transition.
 	offsets := map[int]bool{}
 	_, off0 := t.Zone()
 	offsets[off0] = true
-	for h := 1; h <= 72; h++ {
+	for h := -72; h <= 72; h++ {
+		if h == 0 {
+			continue
+		}
 		_, off := t.Add(time.Duration(h) * time.Hour).Zone()
 		offsets[off] = true
 	}

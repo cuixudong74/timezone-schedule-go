@@ -49,12 +49,12 @@ const (
 
 // WallTime is a naive calendar date-time in some local timezone.
 type WallTime struct {
-	Year   int
-	Month  time.Month
-	Day    int
-	Hour   int
-	Minute int
-	Second int
+	Year   int         `json:"year"`
+	Month  time.Month  `json:"month"`
+	Day    int         `json:"day"`
+	Hour   int         `json:"hour"`
+	Minute int         `json:"minute"`
+	Second int         `json:"second"`
 }
 
 // WallDate is a naive calendar date.
@@ -80,9 +80,9 @@ const (
 
 // RuleEnvelope carries one concrete recurrence rule.
 type RuleEnvelope struct {
-	Kind    RuleKind
-	Weekly  *WeeklyRule
-	Monthly *MonthlyRule
+	Kind    RuleKind    `json:"kind"`
+	Weekly  *WeeklyRule `json:"weekly,omitempty"`
+	Monthly *MonthlyRule `json:"monthly,omitempty"`
 }
 
 // Recurrence generates wall-clock occurrences in local coordinates.
@@ -95,61 +95,61 @@ type Recurrence interface {
 
 // Schedule is a user-owned periodic schedule.
 type Schedule struct {
-	ID        string
-	OwnerID   string
-	Timezone  string
-	Rule      RuleEnvelope
-	Status    ScheduleStatus
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	Revision  int64
-	NextSeq   int64
+	ID        string         `json:"id"`
+	OwnerID   string         `json:"owner_id"`
+	Timezone  string         `json:"timezone"`
+	Rule      RuleEnvelope   `json:"rule"`
+	Status    ScheduleStatus `json:"status"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
+	Revision  int64          `json:"revision"`
+	NextSeq   int64          `json:"next_seq"`
 }
 
 // Revision is an immutable record of a rule change.
 type Revision struct {
-	ID          int64
-	ScheduleID  string
-	Revision    int64
-	Rule        RuleEnvelope
-	EffectiveAt time.Time
-	RulesVersion string
-	CreatedAt   time.Time
-	ActorID     string
-	Reason      string
+	ID           int64        `json:"id"`
+	ScheduleID   string       `json:"schedule_id"`
+	Revision     int64        `json:"revision"`
+	Rule         RuleEnvelope `json:"rule"`
+	EffectiveAt  time.Time    `json:"effective_at"`
+	RulesVersion string       `json:"rules_version"`
+	CreatedAt    time.Time    `json:"created_at"`
+	ActorID      string       `json:"actor_id"`
+	Reason       string       `json:"reason"`
 }
 
 // Trigger is one materialized occurrence of a schedule.
 type Trigger struct {
-	ScheduleID   string
-	Seq          int64
-	ScheduledAt  time.Time
-	Wall         WallTime
-	Status       TriggerStatus
-	Ambiguous    bool
-	Skipped      bool
-	Shifted      bool
-	Resolution   string
-	RulesVersion string
-	CreatedAt    time.Time
+	ScheduleID   string        `json:"schedule_id"`
+	Seq          int64         `json:"seq"`
+	ScheduledAt  time.Time     `json:"scheduled_at"`
+	Wall         WallTime      `json:"wall"`
+	Status       TriggerStatus `json:"status"`
+	Ambiguous    bool          `json:"ambiguous"`
+	Skipped      bool          `json:"skipped"`
+	Shifted      bool          `json:"shifted"`
+	Resolution   string        `json:"resolution"`
+	RulesVersion string        `json:"rules_version"`
+	CreatedAt    time.Time     `json:"created_at"`
 
 	// Delivery state
-	LeaseOwner  string
-	LeaseUntil  time.Time
-	Attempts    int
-	LastError   string
-	NextRetryAt time.Time
-	DeliveredAt *time.Time
+	LeaseOwner  string     `json:"lease_owner,omitempty"`
+	LeaseUntil  time.Time  `json:"lease_until,omitempty"`
+	Attempts    int        `json:"attempts"`
+	LastError   string     `json:"last_error,omitempty"`
+	NextRetryAt time.Time  `json:"next_retry_at,omitempty"`
+	DeliveredAt *time.Time `json:"delivered_at,omitempty"`
 }
 
 // Occurrence is a computed trigger candidate before persistence.
 type Occurrence struct {
-	Seq          int64
-	ScheduledAt  time.Time
-	Wall         WallTime
-	Ambiguous    bool
-	Skipped      bool
-	Shifted      bool
-	Reason       string
-	RulesVersion string
+	Seq          int64     `json:"seq"`
+	ScheduledAt  time.Time `json:"scheduled_at"`
+	Wall         WallTime  `json:"wall"`
+	Ambiguous    bool      `json:"ambiguous"`
+	Skipped      bool      `json:"skipped"`
+	Shifted      bool      `json:"shifted"`
+	Reason       string    `json:"reason"`
+	RulesVersion string    `json:"rules_version"`
 }

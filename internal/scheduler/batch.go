@@ -20,15 +20,15 @@ type RescheduleItem struct {
 
 // ItemResult is the per-item outcome of a batch reschedule.
 type ItemResult struct {
-	ScheduleID string
-	Action     string // "updated", "cancelled", "error"
-	Report     *UpdateReport
-	Error      string
+	ScheduleID string        `json:"schedule_id"`
+	Action     string        `json:"action"`
+	Report     *UpdateReport `json:"report,omitempty"`
+	Error      string        `json:"error,omitempty"`
 }
 
 // BatchResult is the aggregate outcome.
 type BatchResult struct {
-	Results []ItemResult
+	Results []ItemResult `json:"results"`
 }
 
 // BatchReschedule applies a batch of modifications atomically with respect

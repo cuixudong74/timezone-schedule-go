@@ -9,13 +9,13 @@ import (
 
 // WeeklyRule fires on selected weekdays at a fixed local wall time.
 type WeeklyRule struct {
-	Weekdays      []time.Weekday
-	Hour          int
-	Minute        int
-	Second        int
-	IntervalWeeks int // 0 or 1 means every week
-	Anchor        WallDate
-	Until         *WallDate
+	Weekdays      []time.Weekday `json:"weekdays"`
+	Hour          int            `json:"hour"`
+	Minute        int            `json:"minute"`
+	Second        int            `json:"second"`
+	IntervalWeeks int            `json:"interval_weeks"`
+	Anchor        WallDate       `json:"anchor,omitempty"`
+	Until         *WallDate      `json:"until,omitempty"`
 }
 
 // Kind returns KindWeekly.
